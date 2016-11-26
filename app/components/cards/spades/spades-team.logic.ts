@@ -69,11 +69,27 @@ export class SpadesLogic {
     }
   }
 
+  isCellEditable(cells: Cell[][], row: number, col: number): boolean {
+    if(col === 1 || col == 3 || col == 6 || col == 8){
+      return this.isAllBidsMade(cells, row);
+    }
+    return true;
+  }
+
+  isAllBidsMade(cells: Cell[][], row: number){
+      if( cells[row][0].value == null || cells[row][2].value == null ||
+        cells[row][5].value == null || cells[row][7].value == null ){
+        return false;
+      }else{
+        return true;
+      }
+  }
 
   update(cells: Cell[][], score: Cell[]) {
     score[0].value = 0;
     score[1].value = 0;
     var nullValue = false;
+    // Go through each row
     for (var i = 0; i < cells.length; i++) {
       var rowScore: number[] = [];
       var row = cells[i];
@@ -84,6 +100,7 @@ export class SpadesLogic {
         }
       }
 
+      // Checking for Ni have to process player seperately
       if (this.isNilBid(row, 0, 1) || this.isNilBid(row, 2, 3)) {
         rowScore[0] = this.calcScore(row, 0, 1);
         rowScore[0] += this.calcScore(row, 2, 3);
@@ -99,6 +116,7 @@ export class SpadesLogic {
         }
       }
 
+      // Checking for Blind Ni have to process player seperately
       if (this.isNilBid(row, 5, 6) || this.isNilBid(row, 7, 8)) {
         rowScore[1] = this.calcScore(row, 5, 6);
         rowScore[1] += this.calcScore(row, 7, 8);
@@ -114,6 +132,13 @@ export class SpadesLogic {
         }
       }
 
+      // check if taken can be set to enterdata
+      if(this.isAllBidsMade(cells, i)){
+          if(row[1].value == null && row[1].status == null) row[1].status = 'enterdata';
+          if(row[3].value == null && row[3].status == null) row[3].status = 'enterdata';
+          if(row[6].value == null && row[6].status == null) row[6].status = 'enterdata';
+          if(row[8].value == null && row[8].status == null) row[8].status = 'enterdata';
+      }
 
       row[4].value = String(rowScore[0]);
       row[9].value = String(rowScore[1]);
@@ -143,7 +168,15 @@ export class SpadesLogic {
     var cells: Cell[] = [];
     for (var j: number = 0; j < 10; j++) {
       cells[j] = new Cell();
+      cells[j].editable = true;
+      if(j === 4 || j == 9){
+        cells[j].editable = false;
+      }
     }
+    cells[0].status = 'enterdata';
+    cells[2].status = 'enterdata';
+    cells[5].status = 'enterdata';
+    cells[7].status = 'enterdata';
     cells[4].value = '0';
     cells[9].value = '0';
     return cells;

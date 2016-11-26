@@ -39,11 +39,11 @@ export class SpadesTeamComponent implements OnInit {
     this.getCurrentGameType();
     this.getSettings();
 
-     this.score = [];
-     this.score[0] = new Cell();
-     this.score[1] = new Cell();
-     this.score[0].value = 0;
-     this.score[1].value = 0;
+    this.score = [];
+    this.score[0] = new Cell();
+    this.score[1] = new Cell();
+    this.score[0].value = 0;
+    this.score[1].value = 0;
   }
 
   getCurrentGameType(): void {
@@ -67,6 +67,9 @@ export class SpadesTeamComponent implements OnInit {
   }
 
   selected(row: number, col: number) {
+    if (!this.cells[row][col].editable) return;
+    if (!this.spadesLogic.isCellEditable(this.cells, row, col)) return;
+
     this.selectedRow = row;
     this.selectedCol = col;
     this.inputDialog.showDialog();
@@ -74,6 +77,7 @@ export class SpadesTeamComponent implements OnInit {
 
   haveInput(value: string) {
     this.cells[this.selectedRow][this.selectedCol].value = value;
+    this.cells[this.selectedRow][this.selectedCol].status = "";
     this.spadesLogic.update(this.cells, this.score);
   }
 }
