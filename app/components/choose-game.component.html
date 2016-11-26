@@ -1,0 +1,6 @@
+<table>
+  <tr *ngFor="let gameType of gameTypes">
+    <td><button (click)="gotoConfiguration(gameType)">{{gameType.name}}</button></td>
+    <td>{{gameType.description}}</td>
+  </tr>
+</table>

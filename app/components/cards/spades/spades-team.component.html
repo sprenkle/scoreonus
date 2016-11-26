@@ -1,0 +1,39 @@
+<h1 class="gamename">{{currentGameType.name}}</h1>
+
+<table style="width:100%" class="table">
+  <tr>
+    <th class="teamheader team0" colspan=5 >{{teams[0]}}</th>
+    <th class="teamheader team1" colspan=5 >{{teams[1]}}</th>
+  </tr>
+  <tr>
+    <th class="playerheader team0" colspan=2>{{players[0].name}}</th>
+    <th class="playerheader team0" colspan=2>{{players[1].name}}</th>
+    <th class="blankheader team0"></th>
+    <th class="playerheader team1" colspan=2>{{players[2].name}}</th>
+    <th class="playerheader team1" colspan=2>{{players[3].name}}</th>
+    <th class="blankheader team1"></th>
+  </tr>
+  <tr>
+    <th class="sectionheader team0">Bid</th>
+    <th class="sectionheader team0">Taken</th>
+    <th class="sectionheader team0">Bid</th>
+    <th class="sectionheader team0">Taken</th>
+    <th class="sectionheader team0">Score</th>
+    <th class="sectionheader team1">Bid</th>
+    <th class="sectionheader team1">Taken</th>
+    <th class="sectionheader team1">Bid</th>
+    <th class="sectionheader team1">Taken</th>
+    <th class="sectionheader team1">Score</th>
+  </tr>
+  <tr *ngFor="let rowCells of cells; let row = index;">
+    <td *ngFor="let cell of rowCells ; let col = index;" class="colDescrption team0 {{cell.status}}" (click)="selected(row,col)">
+      <div class="wrapper team0 {{cell.status}}">{{cell.value}}</div></td>
+  </tr>
+  <tr>
+    <th class="colDescrption team0" colspan="3">Score</th>
+    <td class="colDescrption team0 {{score[0].status}}" colspan="2">{{score[0].value}}</td>
+    <th class="colDescrption team1" colspan="3">Score</th>
+    <td class="colDescrption team1 {{score[1].status}}" colspan="2">{{score[1].value}}</td>
+  </tr>
+</table>
+<my-spades-input (notify)='haveInput($event)'></my-spades-input>

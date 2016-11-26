@@ -1,0 +1,56 @@
+<h1>{{currentGameType.name}}</h1>
+
+<table style="width:100%">
+  <tr>
+    <th colspan=2 *ngFor="let team of teams">{{team}}</th>
+  </tr>
+  <tr>
+    <th *ngFor="let player of players">{{player.name}}</th>
+  </tr>
+
+</table>
+<div class="rTable">
+  <!-- Main table div -->
+  <div class="rTableRow" *ngFor="let player of players">
+      <div class="rTableHead" >{{player.name}}</div>
+  </div>
+
+  <!-- <div class="rTableRow">
+    {{#each model.teams as |team|}}
+      <div class="rTableCell">
+        <div class="rTable">
+          <div class="rTableRow">
+            {{#each model.sectionHeaders as |section|}}
+              <div class="rTableCell">{{section.name}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  {{#each model.rounds as |round|}}
+    {{#each round.rows as |row rowIndex|}}
+      <div class="rTableRow">
+        {{#each row.columns as |column|}}
+          <div class="rTableCell">
+            <div class="rTable">
+              <div class="rTableRow">
+                {{#each column.sections as |section sectionIndex|}}
+                  <div class="rTableCell {{section.editState}} {{section.status}}" {{action "enterData" round.id row.id section.id section.value}}>{{section.value}}</div>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{/each}}
+    <div class="rTableRow">
+      {{#each round.scores as |score|}}
+        <div class="rTableCell {{score.status}}">{{score.value}}</div>
+      {{/each}}
+    </div>
+  {{/each}} -->
+
+
+</div>

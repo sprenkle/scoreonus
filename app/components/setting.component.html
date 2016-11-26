@@ -1,0 +1,19 @@
+<div *ngIf="setting">
+  <div [ngSwitch]="setting.type">
+    <template ngSwitchCase="boolean">{{setting.description}}<div class="onoffswitch">
+          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{setting.name}}" [(ngModel)]="setting.enabled">
+          <label class="onoffswitch-label" for="{{setting.name}}">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+          </label>
+      </div>
+
+    </template>
+    <template ngSwitchCase="number">
+      {{setting.description}} <input type="number" name="setting.name" [(ngModel)]="setting.value" >
+    </template>
+    <template ngSwitchDefault>
+      {{setting.description}} - default
+    </template>
+  </div>
+</div>

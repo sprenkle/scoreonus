@@ -1,0 +1,22 @@
+<h1>{{currentGameType.description}}</h1>
+<h2>Choose Teams</h2>
+<ol>
+  <li>{{teams[0]}}
+    <ol>
+      <li>{{players[0].name}}</li>
+      <li>{{players[1].name}}</li>
+    </ol>
+  </li>
+  <li>{{teams[1]}}
+    <ol>
+      <li>{{players[2].name}}</li>
+      <li>{{players[3].name}}</li>
+    </ol>
+  </li>
+</ol>
+<button type="button" class="btn btn-primary" (click)="gotoLayout()">Continue</button>
+
+<!--
+{{#link-to 'score-game' model.game.id class="button" }}
+  Continue to Game
+{{/link-to}} -->

@@ -1,0 +1,30 @@
+.inputTable {
+  font-family: "Brush Script MT";
+  color: black;
+}
+.inputKey {
+  font-family: "Brush Script MT";
+  color: black;
+  text-align: center;
+}
+
+section.press button {
+  color: #fff;
+  background-color: #6D7993;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px #27496d;
+  width:50px;
+}
+
+section.press button:hover,
+section.press button.hover {
+  background-color: #9099A2
+}
+
+section.press button:active,
+section.press button.active {
+  background-color: #96858F;
+  box-shadow: 0 5px #27496d;
+  transform: translateY(3px);
+}

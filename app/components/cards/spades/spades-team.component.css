@@ -1,0 +1,61 @@
+.teamheader {
+  border: 1px solid black;
+  font-family: "Brush Script MT";
+  color: black;
+}
+.playerheader {
+  border: 1px solid black;
+  font-family: "Brush Script MT";
+  color: black;
+}
+.sectionheader {
+  border: 1px solid black;
+  font-family: "Brush Script MT";
+  color: black;
+}
+.colDescrption {
+  border: 1px solid black;
+  /*font-family: "Brush Script MT";*/
+  color: black;
+  text-align: center;
+}
+.table {
+  border: 1px solid black;
+  font-family: "Brush Script MT";
+  color: black;
+  border-collapse: collapse;
+}
+.blankheader {
+  border: 1px solid black;
+  font-family: "Brush Script MT";
+  color: black;
+}
+.gamename {
+  font-family: "Brush Script MT";
+  color: black;
+}
+.overBid {
+  background-color:#FFD5D5
+}
+.perfectBid {
+  background-color:#D5FFD5
+}
+.underBid {
+  background-color:#D5D5FF
+}
+.wrapper {
+    position: relative;
+    display: inline-block;
+    color: black;
+}
+.close:before {
+    content: 'x';
+}
+.close {
+  position: absolute;;
+   display: inline-block;
+   background-color: red;
+   top: 0;
+   left: 0;
+
+}

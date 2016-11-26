@@ -1,0 +1,13 @@
+<h1>{{currentGameType.name}}</h1>
+<a href={{currentGameType.link}} target="_blank">Rules</a>
+<ul>
+  <li *ngFor="let setting of settings">
+    <my-setting [setting]="setting"></my-setting>
+    <ul *ngIf="setting.enabled">
+      <li *ngFor="let child of setting.children">
+        <my-setting [setting]="child"></my-setting>
+      </li>
+    </ul>
+  </li>
+</ul>
+<button type="button" class="btn btn-primary" (click)="continue()">Continue</button>
