@@ -3,9 +3,11 @@ import {Cell} from '../../../models/cell';
 
 export class SpadesLogic {
   private config: Object;
+  private firstBid: number;
 
   constructor(config: Object) {
     this.config = config;
+    this.firstBid = 0;
   }
 
   private isNilBid(cells: Cell[], bidIndex: number, madeIndex: number): boolean {
@@ -69,20 +71,71 @@ export class SpadesLogic {
     }
   }
 
+  private colToPlayer(col: number) {
+    if (col <= 1) return 0;
+    if (col >= 2 && col <= 3) return 1;
+    if (col >= 5 && col <= 6) return 2;
+    if (col >= 7 && col <= 8) return 3;
+  }
+
+  private nextBidCol(row: number, player: number) {
+    return this.playerToBidCol(player + 1);
+  }
+
+  private playerToBidCol(player: number) {
+    switch (player) {
+      case 0: return 0;
+      case 1: return 2;
+      case 2: return 5;
+      case 3: return 7;
+    }
+  }
+
+
   isCellEditable(cells: Cell[][], row: number, col: number): boolean {
-    if(col === 1 || col == 3 || col == 6 || col == 8){
+    if (col === 1 || col == 3 || col == 6 || col == 8) {
+      console.log('A taken col was selected');
       return this.isAllBidsMade(cells, row);
     }
+
+    var rowFirstBid = (this.firstBid + row) % 4;
+    console.log('First bid ' + rowFirstBid);
+    for (var i = 0; i < 4; i++) {
+      var playerIndex = (i + rowFirstBid)  % 4;
+
+      console.log('looking at ' + playerIndex);
+      if (cells[row][this.playerToBidCol(playerIndex)].value == null) {
+        console.log('player ' + playerIndex + ' is null,  colToPlayer= ' + this.colToPlayer(col));
+        if (playerIndex === this.colToPlayer(col)) {
+          console.log('This is the col selected, should be good');
+          break;
+        } else {
+          console.log('vlaue was null and not the selected player.')
+          return false;
+        }
+      }
+      else{
+        console.log('player ' + playerIndex + ' is Not null');
+      }
+    }
+
+    cells[row][col].status = "";
+    var nextPlayer = (this.colToPlayer(col) + 1) % 4;
+    var nextPlayerBidCol = this.playerToBidCol(nextPlayer);
+    if (cells[row][nextPlayerBidCol].value == null) {
+      cells[row][nextPlayerBidCol].status = 'enterdata';
+    }
+    console.log('default value of true');
     return true;
   }
 
-  isAllBidsMade(cells: Cell[][], row: number){
-      if( cells[row][0].value == null || cells[row][2].value == null ||
-        cells[row][5].value == null || cells[row][7].value == null ){
-        return false;
-      }else{
-        return true;
-      }
+  isAllBidsMade(cells: Cell[][], row: number) {
+    if (cells[row][0].value == null || cells[row][2].value == null ||
+      cells[row][5].value == null || cells[row][7].value == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   update(cells: Cell[][], score: Cell[]) {
@@ -133,15 +186,32 @@ export class SpadesLogic {
       }
 
       // check if taken can be set to enterdata
-      if(this.isAllBidsMade(cells, i)){
-          if(row[1].value == null && row[1].status == null) row[1].status = 'enterdata';
-          if(row[3].value == null && row[3].status == null) row[3].status = 'enterdata';
-          if(row[6].value == null && row[6].status == null) row[6].status = 'enterdata';
-          if(row[8].value == null && row[8].status == null) row[8].status = 'enterdata';
+      if (this.isAllBidsMade(cells, i)) {
+        if (row[1].value == null && row[1].status == null) row[1].status = 'enterdata';
+        if (row[3].value == null && row[3].status == null) row[3].status = 'enterdata';
+        if (row[6].value == null && row[6].status == null) row[6].status = 'enterdata';
+        if (row[8].value == null && row[8].status == null) row[8].status = 'enterdata';
+      }
+
+      // Reset score status
+      row[4].status = "";
+      row[9].status = "";
+
+      // check for sandbags
+      if(this.config['sandbag']){
+        if((rowScore[0]) % 10 + (Number(score[0].value) % 10) >= 10){
+            rowScore[0] -= 100;
+            row[4].status = 'sandbagged';
+        }
+        if((rowScore[1]) % 10 + (Number(score[1].value) % 10) >= 10){
+            rowScore[1] -= 100;
+            row[9].status = 'sandbagged';
+        }
       }
 
       row[4].value = String(rowScore[0]);
       row[9].value = String(rowScore[1]);
+
       score[0].value += rowScore[0];
       score[1].value += rowScore[1];
     }
@@ -159,24 +229,21 @@ export class SpadesLogic {
           score[1].status = 'underBid';
         }
       } else
-        cells.push(this.getNewRow());
+        cells.push(this.getNewRow(cells.length));
     }
   }
 
-
-  getNewRow(): Cell[] {
+  getNewRow(index:number): Cell[] {
     var cells: Cell[] = [];
     for (var j: number = 0; j < 10; j++) {
       cells[j] = new Cell();
       cells[j].editable = true;
-      if(j === 4 || j == 9){
+      if (j === 4 || j == 9) {
         cells[j].editable = false;
       }
     }
-    cells[0].status = 'enterdata';
-    cells[2].status = 'enterdata';
-    cells[5].status = 'enterdata';
-    cells[7].status = 'enterdata';
+
+    cells[this.playerToBidCol((this.firstBid + index) % 4)].status = 'enterdata';
     cells[4].value = '0';
     cells[9].value = '0';
     return cells;

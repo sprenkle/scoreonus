@@ -55,7 +55,7 @@ export class SpadesTeamComponent implements OnInit {
   getSettings(): void {
     this.spadesLogic = new SpadesLogic(this.gameRepoService.getConfiguration());
     this.cells = [];
-    this.cells[0] = this.spadesLogic.getNewRow();
+    this.cells[0] = this.spadesLogic.getNewRow(0);
   }
 
   getPlayers(): void {
@@ -69,6 +69,7 @@ export class SpadesTeamComponent implements OnInit {
   selected(row: number, col: number) {
     if (!this.cells[row][col].editable) return;
     if (!this.spadesLogic.isCellEditable(this.cells, row, col)) return;
+
 
     this.selectedRow = row;
     this.selectedCol = col;

@@ -60,5 +60,8 @@
 
 }
 .enterdata {
-  background-color:#E1E1E1;
+  background-color:#E8E8E8;
+}
+.sandbagged {
+    content: 'SB';
 }

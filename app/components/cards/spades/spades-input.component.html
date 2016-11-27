@@ -1,114 +1,104 @@
-<div *ngIf="isVisible" class="modal fade show in danger" id="myModal" role="dialog" style="
-    display: inline-block;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 200px;
-    height: 100px;
-    margin: auto;
-    ">
-    <div class="modal-dialog">
-<table class="inputTable">
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('N')">Nil</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('BN')">Bld Nil</button>
-      </section>
-    </td>
-    <td>
-      <!-- <section class="press">
+<div *ngIf="isVisible" id="myModal">
+  <div class="modalDialog">
+    <table class="inputTable">
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('N')">Nil</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('BN')">Bld Nil</button>
+          </section>
+        </td>
+        <td>
+          <!-- <section class="press">
         <button> </button>
       </section> -->
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('1')">1</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('2')">2</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('3')">3</button>
-      </section>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('4')">4</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('5')">5</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('6')">6</button>
-      </section>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('7')">7</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('8')">8</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('9')">9</button>
-      </section>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('10')">10</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('11')">11</button>
-      </section>
-    </td>
-    <td>
-      <section class="press">
-        <button (click)="selected('12')">12</button>
-      </section>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <section class="press">
-        <button (click)="selected('13')">13</button>
-      </section>
-    </td>
-    <td colspan="2">
-      <section class="press">
-        <button (click)="cancel()">Cancel</button>
-      </section>
-    </td>
-    <td>
-  </tr>
-</table>
-</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('1')">1</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('2')">2</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('3')">3</button>
+          </section>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('4')">4</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('5')">5</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('6')">6</button>
+          </section>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('7')">7</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('8')">8</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('9')">9</button>
+          </section>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('10')">10</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('11')">11</button>
+          </section>
+        </td>
+        <td>
+          <section class="press">
+            <button (click)="selected('12')">12</button>
+          </section>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <section class="press">
+            <button (click)="selected('13')">13</button>
+          </section>
+        </td>
+        <td colspan="2">
+          <section class="press">
+            <button (click)="cancel()">Cancel</button>
+          </section>
+        </td>
+        <td>
+      </tr>
+    </table>
+  </div>
 </div>
