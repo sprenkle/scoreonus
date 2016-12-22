@@ -4,12 +4,13 @@
       <tr>
         <td>
           <section class="press">
-            <button (click)="selected('N')">Nil</button>
+            <button *ngIf="isBid" (click)="selected('N')">Nil</button>
           </section>
         </td>
         <td>
           <section class="press">
-            <button (click)="selected('BN')">Bld Nil</button>
+            <button *ngIf="!isBid" (click)="selected('0')">0</button>
+            <button *ngIf="isBid" (click)="selected('BN')">Bld Nil</button>
           </section>
         </td>
         <td>

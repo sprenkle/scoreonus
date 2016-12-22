@@ -21,12 +21,13 @@ export class SpadesInputComponent implements OnInit {
     this.isVisible = false;
   }
 
-
+  public isBid: boolean;
   public isVisible: boolean;
   @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
-  showDialog() {
+  showDialog(isBid: boolean) {
     this.isVisible = true;
+    this.isBid = isBid;
   }
 
   hideHide() {

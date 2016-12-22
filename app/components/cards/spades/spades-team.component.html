@@ -25,7 +25,9 @@
   </tr>
   <tr *ngFor="let rowCells of cells; let row = index;">
     <td *ngFor="let cell of rowCells ; let col = index;" class="colDescrption team0 {{cell.status}}" (click)="selected(row,col)">
-      <div class="wrapper team0 {{cell.status}}">{{cell.value}}</div></td>
+      <div *ngIf="cell.status !== 'notused'"  class="wrapper team0 {{cell.status}}">{{cell.value}}</div>
+      <div *ngIf="cell.status === 'notused'"  class="wrapper team0 {{cell.status}}">-</div>
+    </td>
   </tr>
   <tr>
     <th class="colDescrption team0" colspan="3">Score</th>

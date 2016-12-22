@@ -73,7 +73,7 @@ export class SpadesTeamComponent implements OnInit {
 
     this.selectedRow = row;
     this.selectedCol = col;
-    this.inputDialog.showDialog();
+    this.inputDialog.showDialog(this.spadesLogic.isBid(col));
   }
 
   haveInput(value: string) {

@@ -21,7 +21,7 @@ export class SpadesLogic {
     if (strBid == null || strMade == null) return 0;
 
     if (strBid === 'N') {
-      if (strMade === 'N') {
+      if (strMade === '0') {
         cells[madeIndex].status = 'perfectBid';
         return this.config['nil-made'];
       } else {
@@ -31,7 +31,7 @@ export class SpadesLogic {
     }
 
     if (strBid === 'BN') {
-      if (strMade === 'N') {
+      if (strMade === '0') {
         cells[madeIndex].status = 'perfectBid';
         return this.config['blindNil-made'];
       } else {
@@ -41,8 +41,8 @@ export class SpadesLogic {
     }
     var bid: number = Number(cells[bidIndex].value);
     var made: number = Number(cells[madeIndex].value);
-    if (made === NaN) return 0;
-    this.calcBidStatus(cells, bidIndex, madeIndex);
+    if (made === NaN) { made = 0 };
+    this.calcBidStatus(cells, madeIndex);
     return this.calcBidMade(bid, made);
   }
 
@@ -57,16 +57,28 @@ export class SpadesLogic {
     return 0;
   }
 
-  private calcBidStatus(cells: Cell[], bidIndex: number, madeIndex: number) {
-    var bid: number = Number(cells[bidIndex].value);
+  public calcBidStatus(cells: Cell[], madeIndex: number) {
+    if(cells[madeIndex].status === 'notused') return;
+
+    var bid: number = Number(cells[madeIndex - 1].value);
     var made: number = Number(cells[madeIndex].value);
-    if (made === NaN) return 0;
+    if (isNaN(made)) return 0;
+
+    if (madeIndex === 3 || madeIndex === 8) {
+      if (cells[madeIndex - 2].status === 'notused') {
+        bid = bid + Number(cells[madeIndex-3].value);
+        made = made + Number(cells[madeIndex-2].value);
+      }
+    }
 
     if (made < bid) {
+      console.log('MadeIndex=' + madeIndex + 'overbid');
       cells[madeIndex].status = 'overBid';
     } else if (made === bid) {
+      console.log('MadeIndex=' + madeIndex + 'perfectBid');
       cells[madeIndex].status = 'perfectBid';
     } else if (made > bid) {
+      console.log('MadeIndex=' + madeIndex + 'underBid');
       cells[madeIndex].status = 'underBid';
     }
   }
@@ -91,8 +103,16 @@ export class SpadesLogic {
     }
   }
 
+  isBid(col: number): boolean {
+    if (col === 1 || col == 3 || col == 6 || col == 8) {
+      return false;
+    }
+    return true;
+  }
 
   isCellEditable(cells: Cell[][], row: number, col: number): boolean {
+    if ('notused' === cells[row][col].status) return false;
+
     if (col === 1 || col == 3 || col == 6 || col == 8) {
       console.log('A taken col was selected');
       return this.isAllBidsMade(cells, row);
@@ -101,7 +121,7 @@ export class SpadesLogic {
     var rowFirstBid = (this.firstBid + row) % 4;
     console.log('First bid ' + rowFirstBid);
     for (var i = 0; i < 4; i++) {
-      var playerIndex = (i + rowFirstBid)  % 4;
+      var playerIndex = (i + rowFirstBid) % 4;
 
       console.log('looking at ' + playerIndex);
       if (cells[row][this.playerToBidCol(playerIndex)].value == null) {
@@ -114,7 +134,7 @@ export class SpadesLogic {
           return false;
         }
       }
-      else{
+      else {
         console.log('player ' + playerIndex + ' is Not null');
       }
     }
@@ -159,13 +179,13 @@ export class SpadesLogic {
         rowScore[0] += this.calcScore(row, 2, 3);
       } else {
         var bid: number = Number(row[0].value) + Number(row[2].value);
-        var made: number = Number(row[1].value) + Number(row[3].value);
+        var made: number = Number(row[3].value);
         if (made === NaN) {
           rowScore[0] = 0;
         } else {
           rowScore[0] = this.calcBidMade(bid, made);
-          this.calcBidStatus(row, 0, 1);
-          this.calcBidStatus(row, 2, 3);
+          this.calcBidStatus(row, 1);
+          this.calcBidStatus(row, 3);
         }
       }
 
@@ -175,18 +195,31 @@ export class SpadesLogic {
         rowScore[1] += this.calcScore(row, 7, 8);
       } else {
         var bid: number = Number(row[5].value) + Number(row[7].value);
-        var made: number = Number(row[6].value) + Number(row[8].value);
+        var made: number = Number(row[8].value);
         if (made === NaN) {
           rowScore[1] = 0;
         } else {
           rowScore[1] = this.calcBidMade(bid, made);
-          this.calcBidStatus(row, 5, 6);
-          this.calcBidStatus(row, 7, 8);
+          this.calcBidStatus(row, 6);
+          this.calcBidStatus(row, 8);
         }
       }
 
-      // check if taken can be set to enterdata
+      // Check if bids are made
       if (this.isAllBidsMade(cells, i)) {
+        // Only want to be able to individual taken in if required, example a nil bid
+        if (!isNaN(Number(row[0].value)) && !isNaN(Number(row[2].value))) {
+          console.log('team 1 not used -----------------------------------');
+          row[1].status = 'notused';
+          row[1].value = 0;
+        }
+        if (!isNaN(Number(row[5].value)) && !isNaN(Number(row[7].value))) {
+          console.log('team 2 not used');
+          row[6].status = 'notused';
+          row[6].value = 0;
+        }
+
+        // check if taken can be set to enterdata
         if (row[1].value == null && row[1].status == null) row[1].status = 'enterdata';
         if (row[3].value == null && row[3].status == null) row[3].status = 'enterdata';
         if (row[6].value == null && row[6].status == null) row[6].status = 'enterdata';
@@ -198,14 +231,14 @@ export class SpadesLogic {
       row[9].status = "";
 
       // check for sandbags
-      if(this.config['sandbag']){
-        if((rowScore[0]) % 10 + (Number(score[0].value) % 10) >= 10){
-            rowScore[0] -= 100;
-            row[4].status = 'sandbagged';
+      if (this.config['sandbag']) {
+        if ((rowScore[0]) % 10 + (Number(score[0].value) % 10) >= 10) {
+          rowScore[0] -= 100;
+          row[4].status = 'sandbagged';
         }
-        if((rowScore[1]) % 10 + (Number(score[1].value) % 10) >= 10){
-            rowScore[1] -= 100;
-            row[9].status = 'sandbagged';
+        if ((rowScore[1]) % 10 + (Number(score[1].value) % 10) >= 10) {
+          rowScore[1] -= 100;
+          row[9].status = 'sandbagged';
         }
       }
 
@@ -233,7 +266,7 @@ export class SpadesLogic {
     }
   }
 
-  getNewRow(index:number): Cell[] {
+  getNewRow(index: number): Cell[] {
     var cells: Cell[] = [];
     for (var j: number = 0; j < 10; j++) {
       cells[j] = new Cell();
